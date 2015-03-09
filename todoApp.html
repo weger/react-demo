@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Todo</title>
+    <script src="react-0.12.2/build/react.js"></script>
+    <script src="react-0.12.2/build/JSXTransformer.js"></script>
+</head>
+<body>
+    <script type="text/jsx">
+        /** @jsx React.DOM */
+        var TodoList = React.createClass({
+            render: function (){
+                var createItem = function (itemText){
+                    return <li>{itemText}</li>;
+                };
+
+                return <ul>{this.props.items.map(createItem)}</ul>;
+            }
+        });
+
+        var TodoApp = React.createClass({
+            getInitialState: function (){
+                return {
+                    items: [],
+                    text: ''
+                };
+            },
+            componentWillMount: function (){
+                console.log('componentWillMount');
+            },
+            componentDidMount: function (){
+                console.log('componentDidMount');
+                this.getDOMNode().style.backgroundColor = 'red';
+            },
+            handleSubmit: function (e) {
+                e.preventDefault();
+
+                var nextItems = this.state.items.concat(this.state.text);
+                var nextText = '';
+
+                this.setState({items: nextItems, text: nextText});
+            },
+            onChange: function (e) {
+                this.setState({
+                    text: e.target.value
+                });
+            },
+            render: function () {
+                return (
+                    <div>
+                        <h3>Todo</h3>
+                        <TodoList items={this.state.items} />
+                        <form onSubmit={this.handleSubmit}>
+                            <input onChange={this.onChange} value={this.state.text} />
+                            <button>{'Add #' + (this.state.items.length + 1)}</button>
+                        </form>
+                    </div>
+                )
+            }
+        });
+
+        React.render(<TodoApp />, document.body);
+    </script>
+</body>
+</html>
