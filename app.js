@@ -172,7 +172,48 @@ var FormInput = React.createClass({
     }
 });
 
-React.render(<FormInput />, document.getElementById('example'))
+// React.render(<FormInput />, document.getElementById('example'))
+
+
+/**
+ *  React Component 组合组件
+ *  组件模块化：
+ *  一个显示用户头像的组件 Avatar 包含两个子组件 ProfilePic 显示用户头像和 ProfileLink 显示用户链接
+ */
+var Avatar = React.createClass({
+    render: function (){
+        return (
+            <div>
+                <ProfilePic username={this.props.username} />
+                <ProfileLink username={this.props.username} />
+            </div>
+        )
+    }
+});
+
+var ProfilePic = React.createClass({
+    render: function (){
+        return (
+            <img src={'http://graph.facebook.com/' + this.props.username + '/picture'} />
+        );
+    }
+});
+
+var ProfileLink = React.createClass({
+    render: function (){
+        return (
+            <a href={'http://www.facebook.com/' + this.props.username}>
+                {this.props.username}
+            </a>
+        );
+    }
+});
+
+React.render(<Avatar username="barackobama" />, document.getElementById('example'));
+
+
+
+
 
 
 
