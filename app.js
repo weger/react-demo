@@ -223,12 +223,22 @@ var Child = React.createClass({
 });
 
 var Parent = React.createClass({
+    /*getDefaultProps: function (){
+        return {
+            results: [{
+                id: 1,
+                text: "aaaaaa"
+            }, {
+                id: 2,
+                text: "bbbbbb"
+            }]
+        };
+    },*/
     componentDidMount: function () {
-        console.log('component Did Mount,and dom structure:');
-        console.log(this.props.children);
+        console.log(this.props);
     },
     render: function () {
-        var results = eval(this.props.results);
+        var results = this.props.results;
 
         return (
             <ol>
@@ -241,7 +251,7 @@ var Parent = React.createClass({
 });
 
 
-React.render(<Parent results='[{id:1,text:111},{id:2,text:222}]' />, document.getElementById('example'));
+React.render(<Parent results={[{id:1,text:111},{id:2,text:222}]} />, document.getElementById('example'));
 
 
 
