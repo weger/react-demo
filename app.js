@@ -251,8 +251,49 @@ var Parent = React.createClass({
 });
 
 
-React.render(<Parent results={[{id:1,text:111},{id:2,text:222}]} />, document.getElementById('example'));
+// React.render(<Parent results={[{id:1,text:111},{id:2,text:222}]} />, document.getElementById('example'));
 
 
+/**
+ *  React Component Mixins
+ *  Mixins 不同的组件之间可能会共用一些功能，共享一部分代码
+ *  可以有“生命周期”方法
+ */
+var SetIntervalMixin = {
+    componentWillMount: function() {
+        this.intervals = [];
+    },
+    setInterval: function() {
+        this.intervals.push(setInterval.apply(null, arguments));
+    },
+    componentWillUnmount: function() {
+        this.intervals.map(clearInterval);
+    }
+};
+
+var TickTock = React.createClass({
+    mixins: [SetIntervalMixin], // Use mixin
+    getInitialState: function (){
+        return {
+            seconds: 0
+        }
+    },
+    componentDidMount: function() {
+        // Call a method on the mixin, use this
+        this.setInterval(this.tick, 1000);
+    },
+    tick: function () {
+        this.setState({seconds: this.state.seconds + 1});
+    },
+    render: function () {
+        return (
+            <p>
+                React has been running for {this.state.seconds} seconds.
+            </p>
+        )
+    }
+});
+
+React.render(<TickTock />, document.getElementById('example'));
 
 
