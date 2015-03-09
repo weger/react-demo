@@ -209,10 +209,39 @@ var ProfileLink = React.createClass({
     }
 });
 
-React.render(<Avatar username="barackobama" />, document.getElementById('example'));
+// React.render(<Avatar username="barackobama" />, document.getElementById('example'));
 
 
+/**
+ *  React Component 循环插入子元素
+ *
+ */
+var Child = React.createClass({
+    render: function () {
+        return  <li>{this.props.data.text}</li>;
+    }
+});
 
+var Parent = React.createClass({
+    componentDidMount: function () {
+        console.log('component Did Mount,and dom structure:');
+        console.log(this.props.children);
+    },
+    render: function () {
+        var results = eval(this.props.results);
+
+        return (
+            <ol>
+                {results.map(function (result) {
+                    return <Child key={result.id} data={result} />;
+                })}
+            </ol>
+        )
+    }
+});
+
+
+React.render(<Parent results='[{id:1,text:111},{id:2,text:222}]' />, document.getElementById('example'));
 
 
 
